@@ -396,7 +396,30 @@ class LanguageManager {
     this.currentLanguage = this.detectCurrentLanguage();
     this.retryCount = 0;
     this.maxRetries = 50;
+    
+    // Check if we should redirect to a saved language preference on home page
+    this.checkAndRedirectToPreferredLanguage();
+    
     this.init();
+  }
+
+  checkAndRedirectToPreferredLanguage() {
+    const pathname = window.location.pathname;
+    const isHomePage = pathname === '/' || pathname.endsWith('/index.html') || pathname.endsWith('KalieJia.github.io/') || pathname.endsWith('KalieJia.github.io');
+    
+    if (isHomePage) {
+      const savedLanguage = localStorage.getItem('website-language');
+      if (savedLanguage && savedLanguage !== 'en') {
+        // User has a saved language preference that's not English
+        const targetFolder = this.languageMap[savedLanguage] || '';
+        if (targetFolder) {
+          const hash = window.location.hash || '';
+          const newPath = pathname.replace(/\/$/, '') + '/' + targetFolder + '/';
+          console.log('Redirecting to saved language:', savedLanguage, '-> ', newPath);
+          window.location.href = newPath + hash;
+        }
+      }
+    }
   }
 
   detectCurrentLanguage() {
@@ -450,31 +473,19 @@ class LanguageManager {
     console.log('Target folder:', targetFolder);
     console.log('Hash:', hash);
     
-    // Find the position of personalWebsite01 in the path
-    const baseIndex = currentPath.indexOf('personalWebsite01');
-    if (baseIndex === -1) {
-      console.error('Could not find personalWebsite01 in path:', currentPath);
-      return;
-    }
-    
-    // Get everything before personalWebsite01
-    const beforeBase = currentPath.substring(0, baseIndex);
-    
-    // Get everything after personalWebsite01/, excluding any existing language subfolder
-    const afterBase = currentPath.substring(baseIndex + 'personalWebsite01'.length);
-    let pathWithoutLang = afterBase.replace(/^\/(cn_s|cn_t|jp|sp)/, '');
+    // Remove any existing language subfolder from the path
+    let pathWithoutLang = currentPath.replace(/^\/(cn_s|cn_t|jp|sp)(?:\/|$)/, '/');
     
     // Ensure path starts with /
     if (!pathWithoutLang.startsWith('/')) {
       pathWithoutLang = '/' + pathWithoutLang;
     }
     
-    // Build new path
-    let newPath = beforeBase + 'personalWebsite01';
+    // Build new path based on target language
+    let newPath = pathWithoutLang;
     if (targetFolder) {
-      newPath += '/' + targetFolder + pathWithoutLang;
-    } else {
-      newPath += pathWithoutLang;
+      // Insert language folder after root
+      newPath = '/' + targetFolder + pathWithoutLang;
     }
     
     // Ensure proper slashing
