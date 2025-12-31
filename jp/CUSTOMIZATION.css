@@ -1,0 +1,320 @@
+/* ============================================
+   Color Scheme Configuration
+   ============================================ */
+
+/*
+   This file shows recommended color schemes you can use.
+   Copy and paste into style.css root variables.
+*/
+
+/* Blue Scheme (Current) */
+/*
+:root {
+  --primary-color: #2563eb;
+  --secondary-color: #1e40af;
+  --accent-color: #0ea5e9;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --bg-light: #f9fafb;
+  --bg-white: #ffffff;
+  --border-color: #e5e7eb;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+}
+*/
+
+/* Green Scheme */
+/*
+:root {
+  --primary-color: #10b981;
+  --secondary-color: #059669;
+  --accent-color: #06b6d4;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --bg-light: #f9fafb;
+  --bg-white: #ffffff;
+  --border-color: #e5e7eb;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+}
+*/
+
+/* Purple Scheme */
+/*
+:root {
+  --primary-color: #9333ea;
+  --secondary-color: #7e22ce;
+  --accent-color: #8b5cf6;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --bg-light: #f9fafb;
+  --bg-white: #ffffff;
+  --border-color: #e5e7eb;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+}
+*/
+
+/* Teal Scheme */
+/*
+:root {
+  --primary-color: #06b6d4;
+  --secondary-color: #0891b2;
+  --accent-color: #14b8a6;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --bg-light: #f9fafb;
+  --bg-white: #ffffff;
+  --border-color: #e5e7eb;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+}
+*/
+
+/* Orange Scheme */
+/*
+:root {
+  --primary-color: #f97316;
+  --secondary-color: #ea580c;
+  --accent-color: #fb923c;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --bg-light: #f9fafb;
+  --bg-white: #ffffff;
+  --border-color: #e5e7eb;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+}
+*/
+
+/* Red Scheme */
+/*
+:root {
+  --primary-color: #ef4444;
+  --secondary-color: #dc2626;
+  --accent-color: #f87171;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --bg-light: #f9fafb;
+  --bg-white: #ffffff;
+  --border-color: #e5e7eb;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+}
+*/
+
+/* ============================================
+   Font Combinations
+   ============================================ */
+
+/*
+   Change these in style.css root:
+   
+   Modern:
+   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+   
+   Classic:
+   --font-sans: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+   
+   Friendly:
+   --font-sans: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+   
+   Minimal:
+   --font-sans: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
+   
+   Elegant (serif):
+   --font-serif: 'Merriweather', 'Georgia', serif;
+   --font-serif: 'Garamond', 'Georgia', serif;
+*/
+
+/* ============================================
+   Responsive Breakpoints
+   ============================================ */
+
+/*
+   Mobile: 0 - 640px
+   Tablet: 641px - 1024px
+   Desktop: 1025px+
+   
+   Currently used breakpoint: 768px
+   
+   If you need more granular control, add these:
+   
+   @media (max-width: 480px) { ... }        // Small mobile
+   @media (max-width: 768px) { ... }        # Tablet
+   @media (min-width: 1280px) { ... }       # Large desktop
+*/
+
+/* ============================================
+   Shadow Levels
+   ============================================ */
+
+/*
+   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+*/
+
+/* ============================================
+   Recommended Content Updates
+   ============================================ */
+
+/*
+   1. Personal Information
+      - Full Name
+      - Professional Title/Tagline
+      - Short bio (2-3 sentences)
+      - Profile photo (optional)
+
+   2. Contact Information
+      - Email address
+      - Phone number (optional)
+      - LinkedIn profile
+      - GitHub profile
+      - X/X handle
+      - YouTube channel
+      - Personal website (if any)
+
+   3. About Section
+      - Background story
+      - Education details
+      - Technical skills
+      - Interests and hobbies
+      - Fun facts (3-6 items)
+
+   4. Accomplishments
+      - Awards and honors
+      - Scholarships
+      - Certifications
+      - Publications
+      - Major projects
+      - Dates and descriptions
+
+   5. Classes
+      - Course code and name
+      - Semester taken
+      - Brief description
+      - Key learnings (optional)
+      - Grade (optional, if impressive)
+
+   6. Videos
+      - Replace YouTube video IDs
+      - Add your actual video uploads
+      - Keep 3-6 most important videos
+
+   7. Essays & Papers
+      - Research papers written
+      - Articles published
+      - Technical blog posts
+      - PDF links
+      - LaTeX source links
+
+   8. Activities
+      - Club memberships and roles
+      - Volunteer work
+      - Sports/hobbies
+      - Leadership positions
+      - Impact metrics
+
+   9. Resume
+      - Add your actual resume PDF
+      - Keep it up-to-date
+      - Link to your CV if applicable
+
+   10. Photo Gallery
+       - Travel photos
+       - Conference/event photos
+       - Team/project photos
+       - Captions for each
+
+   11. Puzzles (Optional)
+       - Custom math problems
+       - Logic puzzles
+       - Coding challenges
+       - Solutions and explanations
+
+   12. Contact Form
+       - Your email address
+       - Social media handles
+       - Preferred contact method
+       - Response expectations
+*/
+
+/* ============================================
+   Performance Optimization Tips
+   ============================================ */
+
+/*
+   1. Images:
+      - Compress to under 100KB each
+      - Use appropriate dimensions
+      - Consider WebP format
+      - Provide fallbacks
+
+   2. CSS:
+      - Keep minified for production
+      - Use CSS variables for easy updates
+      - Remove unused styles
+
+   3. JavaScript:
+      - Keep vanilla JS lightweight
+      - Use defer attribute in script tag
+      - Minimize DOM queries
+
+   4. Hosting:
+      - Use GitHub Pages (free)
+      - Use CDN for images
+      - Enable gzip compression
+      - Set proper cache headers
+
+   5. SEO:
+      - Keep descriptions under 160 chars
+      - Use descriptive alt text
+      - Create an XML sitemap
+      - Add structured data
+      - Ensure fast page load
+*/
+
+/* ============================================
+   Feature Customization Examples
+   ============================================ */
+
+/*
+   1. Disable Slideshow:
+      Delete or comment out the slideshow HTML section
+      and the Slideshow class initialization in main.js
+
+   2. Add More Navigation Items:
+      Add <li><a href="#section">Name</a></li> to nav-links
+      And add corresponding section with id="section"
+
+   3. Change Slideshow Speed:
+      In main.js, find: setInterval(() => this.nextSlide(), 5000);
+      Change 5000 to desired milliseconds (5000 = 5 seconds)
+
+   4. Add More Puzzle Solutions:
+      Copy and modify the collapsible structure
+      Each puzzle needs: button + div.collapsible-content
+
+   5. Change Grid Columns:
+      In CSS, modify: grid-template-columns
+      For 4 columns: repeat(auto-fit, minmax(200px, 1fr))
+      For 2 columns: repeat(auto-fit, minmax(300px, 1fr))
+
+   6. Customize Card Hover Effect:
+      In CSS .card:hover, modify:
+      - transform: translateY(Xpx);
+      - box-shadow value
+      - border-color
+
+   7. Add Animation to Elements:
+      Define @keyframes animation in CSS
+      Apply to element with: animation: name duration;
+
+   8. Adjust Spacing:
+      Change padding/margin values:
+      section { padding: 4rem 2rem; }
+      Adjust rem values to suit your preference
+*/

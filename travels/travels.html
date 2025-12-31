@@ -1,0 +1,160 @@
+<!-- My Travels Section Content -->
+<section id="travels" class="section">
+    <div class="container">
+        <div class="section-header">
+            <p class="section-title">Around the World</p>
+            <h2>My Travels</h2>
+        </div>
+
+        <div class="travels-intro">
+            <p>I love exploring new places and learning about cultures around the world!</p>
+        </div>
+
+        <!-- World Map with Location Pins -->
+        <div class="world-map">
+            <svg viewBox="0 0 960 600" class="map-svg">
+                <!-- Simplified world map outline -->
+                <rect width="960" height="600" fill="#e8f4f8"/>
+                
+                <!-- Continents/simplified shapes -->
+                <path d="M 100 150 L 150 140 L 170 180 L 150 200 Z" fill="#d0e8f2" stroke="#999" stroke-width="1"/>
+                <path d="M 200 100 L 300 80 L 350 150 L 300 200 Z" fill="#d0e8f2" stroke="#999" stroke-width="1"/>
+                <path d="M 400 80 L 500 70 L 550 150 L 480 200 Z" fill="#d0e8f2" stroke="#999" stroke-width="1"/>
+                <path d="M 550 150 L 650 140 L 700 200 L 600 250 Z" fill="#d0e8f2" stroke="#999" stroke-width="1"/>
+                <path d="M 700 250 L 800 240 L 820 300 L 750 320 Z" fill="#d0e8f2" stroke="#999" stroke-width="1"/>
+                <path d="M 150 250 L 250 240 L 300 350 L 200 360 Z" fill="#d0e8f2" stroke="#999" stroke-width="1"/>
+                <path d="M 250 350 L 350 340 L 400 450 L 300 460 Z" fill="#d0e8f2" stroke="#999" stroke-width="1"/>
+                <path d="M 350 400 L 450 390 L 480 500 L 380 510 Z" fill="#d0e8f2" stroke="#999" stroke-width="1"/>
+                
+                <!-- Clickable location pins -->
+                <circle cx="220" cy="280" r="12" class="map-pin" data-location="europe" style="cursor: pointer;">
+                    <title>Europe</title>
+                </circle>
+                <text x="220" y="305" text-anchor="middle" class="map-label">Europe</text>
+                
+                <circle cx="350" cy="320" r="12" class="map-pin" data-location="africa" style="cursor: pointer;">
+                    <title>Africa</title>
+                </circle>
+                <text x="350" y="345" text-anchor="middle" class="map-label">Africa</text>
+                
+                <circle cx="520" cy="180" r="12" class="map-pin" data-location="asia" style="cursor: pointer;">
+                    <title>Asia</title>
+                </circle>
+                <text x="520" y="155" text-anchor="middle" class="map-label">Asia</text>
+                
+                <circle cx="180" cy="380" r="12" class="map-pin" data-location="americas" style="cursor: pointer;">
+                    <title>Americas</title>
+                </circle>
+                <text x="180" y="405" text-anchor="middle" class="map-label">Americas</text>
+            </svg>
+        </div>
+
+        <!-- Photo Grid organized by location -->
+        <div class="travels-grid">
+            <!-- Europe -->
+            <div class="location-section" id="europe">
+                <h3 class="location-title">Europe</h3>
+                <div class="css-gallery">
+                    <div class="gallery-row">
+                        <div class="gallery-item">
+                            <img src="assets/images/photo1.jpg" alt="European City">
+                            <div class="gallery-overlay">
+                                <p class="gallery-caption">Historic Streets</p>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="assets/images/photo2.jpg" alt="European Coast">
+                            <div class="gallery-overlay">
+                                <p class="gallery-caption">Coastal Views</p>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="assets/images/photo3.jpg" alt="European Architecture">
+                            <div class="gallery-overlay">
+                                <p class="gallery-caption">Architecture</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Asia -->
+            <div class="location-section" id="asia">
+                <h3 class="location-title">Asia</h3>
+                <div class="css-gallery">
+                    <div class="gallery-row">
+                        <div class="gallery-item">
+                            <img src="assets/images/photo4.jpg" alt="Asian Temple">
+                            <div class="gallery-overlay">
+                                <p class="gallery-caption">Ancient Temples</p>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="assets/images/photo5.jpg" alt="Asian Landscape">
+                            <div class="gallery-overlay">
+                                <p class="gallery-caption">Landscape</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Africa -->
+            <div class="location-section" id="africa">
+                <h3 class="location-title">Africa</h3>
+                <div class="css-gallery">
+                    <div class="gallery-row">
+                        <div class="gallery-item">
+                            <img src="assets/images/photo2.jpg" alt="African Safari">
+                            <div class="gallery-overlay">
+                                <p class="gallery-caption">Wildlife</p>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="assets/images/photo3.jpg" alt="African Culture">
+                            <div class="gallery-overlay">
+                                <p class="gallery-caption">Cultural Experience</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Americas -->
+            <div class="location-section" id="americas">
+                <h3 class="location-title">Americas</h3>
+                <div class="css-gallery">
+                    <div class="gallery-row">
+                        <div class="gallery-item">
+                            <img src="assets/images/photo6.jpg" alt="North American Landscape">
+                            <div class="gallery-overlay">
+                                <p class="gallery-caption">Mountain Views</p>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="assets/images/photo1.jpg" alt="South American Culture">
+                            <div class="gallery-overlay">
+                                <p class="gallery-caption">Local Culture</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mapPins = document.querySelectorAll('.map-pin');
+    mapPins.forEach(pin => {
+        pin.addEventListener('click', function() {
+            const location = this.getAttribute('data-location');
+            const element = document.getElementById(location);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+});
+</script>
