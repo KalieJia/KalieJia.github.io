@@ -22,57 +22,57 @@
 
         <div class="community-list">
             <dl class="community-items">
-                <div class="community-item" data-date="2026-03-23">
+                <div class="community-item" data-date="2026-03-23" data-month="3" data-year="2026">
                     <dt><a href="https://thebedfordcitizen.org/2026/03/john-glenn-middle-school-students-take-fourth-at-mathcounts-state-competition/" target="_blank" rel="noopener noreferrer">John Glenn Middle School Students Take Fourth at MATHCOUNTS State Competition</a></dt>
                     <dd>The Bedford Citizen, March 2026</dd>
                 </div>
 
-                <div class="community-item" data-date="2026-03-10">
+                <div class="community-item" data-date="2026-03-10" data-month="3" data-year="2026">
                     <dt><a href="https://thebedfordcitizen.org/2026/03/bedfords-lunar-new-year-celebration-marks-start-to-the-year-of-the-fire-horse/" target="_blank" rel="noopener noreferrer">Bedford's Lunar New Year Celebration Marks Start to the Year of the Fire Horse</a></dt>
                     <dd>The Bedford Citizen, March 2026</dd>
                 </div>
 
-                <div class="community-item" data-date="2025-05-04">
+                <div class="community-item" data-date="2025-05-04" data-month="5" data-year="2025">
                     <dt><a href="https://tzuchiacademyboston.org/5-4-2025-newsletter/" target="_blank" rel="noopener noreferrer">May 4 Newsletter</a></dt>
                     <dd>Tzu Chi Academy Boston, May 2025</dd>
                 </div>
 
-                <div class="community-item" data-date="2025-04-27">
+                <div class="community-item" data-date="2025-04-27" data-month="4" data-year="2025">
                     <dt><a href="https://tzuchiacademyboston.org/4-27-2025-newsletter/" target="_blank" rel="noopener noreferrer">April 27 Newsletter</a></dt>
                     <dd>Tzu Chi Academy Boston, April 2025</dd>
                 </div>
 
-                <div class="community-item" data-date="2025-04-01">
+                <div class="community-item" data-date="2025-04-01" data-month="4" data-year="2025">
                     <dt><a href="https://thebedfordcitizen.org/2025/04/john-glenn-middle-school-announces-quarter-2-academic-achievement-and-academic-tenacity-lists/" target="_blank" rel="noopener noreferrer">John Glenn Middle School Announces Quarter 2 Academic Achievement and Academic Tenacity Lists</a></dt>
                     <dd>The Bedford Citizen, April 2025</dd>
                 </div>
 
-                <div class="community-item" data-date="2025-03-13">
+                <div class="community-item" data-date="2025-03-13" data-month="3" data-year="2025">
                     <dt><a href="https://www.epochtimes.com/gb/25/3/13/n14457763.htm" target="_blank" rel="noopener noreferrer">贾家姐妹感恩汉字文化节系列活动 伴一路成长</a></dt>
                     <dd>Epoch Times, March 2025</dd>
                 </div>
 
-                <div class="community-item" data-date="2024-10-24">
+                <div class="community-item" data-date="2024-10-24" data-month="10" data-year="2024">
                     <dt><a href="https://tzuchiacademyboston.org/10-24-2024-newsletter/" target="_blank" rel="noopener noreferrer">October 24 Newsletter</a></dt>
                     <dd>Tzu Chi Academy Boston, October 2024</dd>
                 </div>
 
-                <div class="community-item" data-date="2023-06-01">
+                <div class="community-item" data-date="2023-06-01" data-month="6" data-year="2023">
                     <dt><a href="https://thebedfordcitizen.org/2023/06/lane-school-invention-convention-showcased-design-creativity-and-teamwork/" target="_blank" rel="noopener noreferrer">Lane School Invention Convention Showcased Design, Creativity, and Teamwork</a></dt>
                     <dd>The Bedford Citizen, June 2023</dd>
                 </div>
 
-                <div class="community-item" data-date="2021-12-01">
+                <div class="community-item" data-date="2021-12-01" data-month="12" data-year="2021">
                     <dt><a href="https://thebedfordcitizen.org/2021/12/a-celebration-of-coming-together/" target="_blank" rel="noopener noreferrer">A Celebration of Coming Together</a></dt>
                     <dd>The Bedford Citizen, December 2021</dd>
                 </div>
 
-                <div class="community-item" data-date="2024-10-24">
+                <div class="community-item" data-date="2023-01-01" data-month="1" data-year="2023">
                     <dt><a href="https://tcaboston.org/" target="_blank" rel="noopener noreferrer">Tzu Chi Academy Boston</a></dt>
                     <dd>Tzu Chi Academy Boston, January 2023</dd>
                 </div>
 
-                <div class="community-item" data-date="2024-10-24">
+                <div class="community-item" data-date="2020-01-01" data-month="1" data-year="2020">
                     <dt><a href="https://www.ocac.gov.tw/OCAC/SubSites/Pages/Detail.aspx?site=ad4b003b-2a11-4a19-a14e-42f11fecae70&nodeid=977&pid=73404445" target="_blank" rel="noopener noreferrer">Overseas Community Affairs Council Feature</a></dt>
                     <dd>Taiwan OCAC</dd>
                 </div>
@@ -182,29 +182,45 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const filterSelect = document.getElementById('article-filter');
-    const communityItems = document.querySelectorAll('.community-item');
+    const communityList = document.querySelector('.community-items');
+    const communityItems = Array.from(document.querySelectorAll('.community-item'));
+
+    // Sort items by date in descending order (newest first)
+    function sortItemsByDate(items) {
+        return items.sort((a, b) => {
+            const dateA = new Date(a.getAttribute('data-date'));
+            const dateB = new Date(b.getAttribute('data-date'));
+            return dateB - dateA; // Descending order (newest first)
+        });
+    }
+
+    // Initial sort
+    const sortedItems = sortItemsByDate(communityItems);
+    communityList.innerHTML = '';
+    sortedItems.forEach(item => communityList.appendChild(item));
 
     filterSelect.addEventListener('change', function() {
         const filterValue = this.value;
         const now = new Date();
         
-        communityItems.forEach(item => {
+        // Filter items
+        const visibleItems = sortedItems.filter(item => {
             const dateStr = item.getAttribute('data-date');
             const itemDate = new Date(dateStr);
             const monthsDiff = (now.getFullYear() - itemDate.getFullYear()) * 12 + 
                              (now.getMonth() - itemDate.getMonth());
             
             if (filterValue === 'all') {
-                item.classList.remove('hidden');
+                return true;
             } else {
                 const monthsThreshold = parseInt(filterValue);
-                if (monthsDiff <= monthsThreshold) {
-                    item.classList.remove('hidden');
-                } else {
-                    item.classList.add('hidden');
-                }
+                return monthsDiff <= monthsThreshold;
             }
         });
+
+        // Update list with filtered items in sorted order
+        communityList.innerHTML = '';
+        visibleItems.forEach(item => communityList.appendChild(item));
     });
 });
 </script>

@@ -182,7 +182,7 @@ nav {
 .theme-selector-wrapper {
   display: flex !important;
   align-items: center;
-  margin-left: auto;
+  gap: 1rem;
 }
 
 .theme-select {
