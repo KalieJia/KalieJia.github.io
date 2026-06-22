@@ -83,6 +83,11 @@ class Router {
             const html = await response.text();
             this.components.footer = html;
             document.getElementById('footer-container').innerHTML = html;
+            
+            // Update footer year after loading
+            if (window.updateFooterYear) {
+                window.updateFooterYear();
+            }
         } catch (error) {
             console.error('Failed to load footer:', error);
         }
@@ -161,6 +166,13 @@ class Router {
         if (section === 'home' || section === 'music') {
             this.initSlideshow();
         }
+        
+        if (section === 'community') {
+            // Reinitialize community filter when community section is displayed
+            if (window.CommunityFilter) {
+                window.communityFilter = new CommunityFilter();
+            }
+        }
     }
 
     /**
@@ -169,6 +181,10 @@ class Router {
     initSlideshow() {
         const slideshow = document.getElementById('slideshow');
         if (!slideshow) return;
+        
+        // Prevent duplicate initialization
+        if (slideshow.hasAttribute('data-slideshow-initialized')) return;
+        slideshow.setAttribute('data-slideshow-initialized', 'true');
 
         let currentSlide = 0;
         const slides = slideshow.querySelectorAll('.slide');
@@ -209,10 +225,13 @@ class Router {
         });
 
         // Auto-play slideshow (optional)
-        setInterval(() => {
+        const autoPlayInterval = setInterval(() => {
             currentSlide++;
             showSlide(currentSlide);
         }, 5000);
+        
+        // Store interval ID for potential cleanup
+        slideshow.setAttribute('data-slideshow-interval', autoPlayInterval);
     }
 
     /**

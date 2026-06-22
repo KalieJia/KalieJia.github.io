@@ -186,6 +186,71 @@ class SlideShowVideoManager {
 }
 
 // ============================================
+// Community Article Filter
+// ============================================
+
+class CommunityFilter {
+  constructor() {
+    this.filterSelect = document.getElementById('article-filter');
+    this.communityItems = document.querySelectorAll('.community-item');
+    
+    if (!this.filterSelect || this.communityItems.length === 0) return;
+    
+    // Prevent duplicate initialization
+    if (this.filterSelect.hasAttribute('data-initialized')) return;
+    this.filterSelect.setAttribute('data-initialized', 'true');
+    
+    this.init();
+  }
+
+  init() {
+    // Set up event listener for filter changes
+    this.filterSelect.addEventListener('change', (e) => {
+      this.applyFilter(e.target.value);
+    });
+    
+    // Apply initial filter (all)
+    this.applyFilter('all');
+  }
+
+  applyFilter(filterValue) {
+    const filterMonths = parseInt(filterValue);
+    const cutoffDate = new Date();
+    
+    if (!isNaN(filterMonths)) {
+      // Calculate cutoff date based on current date minus the specified months
+      cutoffDate.setMonth(cutoffDate.getMonth() - filterMonths);
+    }
+    
+    this.communityItems.forEach((item) => {
+      const dateStr = item.getAttribute('data-date');
+      if (!dateStr) {
+        item.style.display = 'none';
+        return;
+      }
+      
+      const itemDate = new Date(dateStr);
+      
+      // Show item if it's after the cutoff date or if filter is "all"
+      const shouldShow = filterValue === 'all' || itemDate >= cutoffDate;
+      item.style.display = shouldShow ? 'block' : 'none';
+    });
+  }
+}
+
+// ============================================
+// Footer Year Updater
+// ============================================
+
+function updateFooterYear() {
+  const footerYearElement = document.getElementById('footer-year');
+  if (footerYearElement) {
+    const currentYear = new Date().getFullYear();
+    footerYearElement.textContent = currentYear;
+  }
+}
+
+// ============================================
 // Initialize on DOM Ready
 // ============================================
 
@@ -201,6 +266,12 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Initialize Lightbox
   window.lightbox = new Lightbox();
+  
+  // Initialize Community Filter
+  window.communityFilter = new CommunityFilter();
+  
+  // Update footer year
+  updateFooterYear();
   
   // Setup navigation mobile toggle
   setupMobileNavigation();
@@ -249,13 +320,12 @@ function setupMobileNavigation() {
     console.warn('Navigation elements not found');
     return;
   }
+  
+  // Prevent duplicate setup
+  if (navToggle.hasAttribute('data-nav-initialized')) return;
+  navToggle.setAttribute('data-nav-initialized', 'true');
 
-  // Remove existing listeners first (in case this is called multiple times)
-  const newToggle = navToggle.cloneNode(true);
-  navToggle.parentNode.replaceChild(newToggle, navToggle);
-
-  const newToggleBtn = document.querySelector('.nav-toggle');
-  newToggleBtn.addEventListener('click', function(e) {
+  navToggle.addEventListener('click', function(e) {
     e.preventDefault();
     navLinks.classList.toggle('active');
   });
@@ -281,6 +351,10 @@ window.setupMobileNavigation = setupMobileNavigation;
 function initContactForm() {
   const form = document.getElementById('contact-form');
   if (!form) return;
+  
+  // Prevent duplicate event listeners
+  if (form.hasAttribute('data-initialized')) return;
+  form.setAttribute('data-initialized', 'true');
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -309,28 +383,17 @@ function initContactForm() {
 
 class Lightbox {
   constructor() {
-    this.observeGallery();
-  }
-
-  observeGallery() {
-    // Watch for gallery items being added to DOM
-    const observer = new MutationObserver(() => {
-      const galleryItems = document.querySelectorAll('.gallery-image');
-      if (galleryItems.length > 0) {
-        this.init();
-        observer.disconnect();
-      }
-    });
-
-    observer.observe(document.getElementById('content-viewport') || document.body, {
-      childList: true,
-      subtree: true
-    });
+    this.initialized = false;
+    this.init();
   }
 
   init() {
     const galleryItems = document.querySelectorAll('.photo-item');
     if (galleryItems.length === 0) return;
+    
+    // Prevent duplicate initialization
+    if (this.initialized) return;
+    this.initialized = true;
 
     galleryItems.forEach(item => {
       item.addEventListener('click', (e) => this.openLightbox(e));
