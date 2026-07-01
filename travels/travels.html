@@ -109,8 +109,8 @@
     </div>
 </section>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link rel="stylesheet" href="../assets/vendor/leaflet/leaflet.css" />
+<script src="../assets/vendor/leaflet/leaflet.js"></script>
 
 <style>
 .travel-map-heading {
@@ -130,6 +130,20 @@
 
 .world-map {
     margin-bottom: 2rem;
+}
+
+.travel-marker-wrapper {
+    background: transparent !important;
+    border: none !important;
+}
+
+.travel-marker {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--primary-color, #2563eb);
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
 }
 
 .leaflet-popup-content-wrapper {
@@ -208,17 +222,23 @@ function initTravelMap() {
         scrollWheelZoom: true
     }).setView([20, 0], 2);
 
-    window.L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 20
+    window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19
     }).addTo(map);
 
     const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const markerIcon = window.L.divIcon({
+        html: '<div class="travel-marker"></div>',
+        className: 'travel-marker-wrapper',
+        iconSize: [14, 14],
+        iconAnchor: [7, 7]
+    });
 
     myTravels.forEach(trip => {
         const marker = window.L.marker(trip.coords, {
-            title: trip.name
+            title: trip.name,
+            icon: markerIcon
         }).addTo(map);
 
         const popupContent = `
