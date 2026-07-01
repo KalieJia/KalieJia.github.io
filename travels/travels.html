@@ -10,43 +10,9 @@
             <p>I love exploring new places and learning about cultures around the world!</p>
         </div>
 
-        <!-- World Map with Location Pins -->
-        <div class="world-map">
-            <svg viewBox="0 0 960 600" class="map-svg">
-                <!-- Simplified world map outline -->
-                <rect width="960" height="600" fill="#e8f4f8"/>
-                
-                <!-- Continents/simplified shapes -->
-                <path d="M 100 150 L 150 140 L 170 180 L 150 200 Z" fill="#d0e8f2" stroke="#999" stroke-width="1"/>
-                <path d="M 200 100 L 300 80 L 350 150 L 300 200 Z" fill="#d0e8f2" stroke="#999" stroke-width="1"/>
-                <path d="M 400 80 L 500 70 L 550 150 L 480 200 Z" fill="#d0e8f2" stroke="#999" stroke-width="1"/>
-                <path d="M 550 150 L 650 140 L 700 200 L 600 250 Z" fill="#d0e8f2" stroke="#999" stroke-width="1"/>
-                <path d="M 700 250 L 800 240 L 820 300 L 750 320 Z" fill="#d0e8f2" stroke="#999" stroke-width="1"/>
-                <path d="M 150 250 L 250 240 L 300 350 L 200 360 Z" fill="#d0e8f2" stroke="#999" stroke-width="1"/>
-                <path d="M 250 350 L 350 340 L 400 450 L 300 460 Z" fill="#d0e8f2" stroke="#999" stroke-width="1"/>
-                <path d="M 350 400 L 450 390 L 480 500 L 380 510 Z" fill="#d0e8f2" stroke="#999" stroke-width="1"/>
-                
-                <!-- Clickable location pins -->
-                <circle cx="220" cy="280" r="12" class="map-pin" data-location="europe" style="cursor: pointer;">
-                    <title>Europe</title>
-                </circle>
-                <text x="220" y="305" text-anchor="middle" class="map-label">Europe</text>
-                
-                <circle cx="350" cy="320" r="12" class="map-pin" data-location="africa" style="cursor: pointer;">
-                    <title>Africa</title>
-                </circle>
-                <text x="350" y="345" text-anchor="middle" class="map-label">Africa</text>
-                
-                <circle cx="520" cy="180" r="12" class="map-pin" data-location="asia" style="cursor: pointer;">
-                    <title>Asia</title>
-                </circle>
-                <text x="520" y="155" text-anchor="middle" class="map-label">Asia</text>
-                
-                <circle cx="180" cy="380" r="12" class="map-pin" data-location="americas" style="cursor: pointer;">
-                    <title>Americas</title>
-                </circle>
-                <text x="180" y="405" text-anchor="middle" class="map-label">Americas</text>
-            </svg>
+        <!-- World Map with Location Pins (Interactive Leaflet Map) -->
+        <div class="world-map" id="travels-map-container">
+            <div id="travels-map" class="leaflet-map-wrapper"></div>
         </div>
 
         <!-- Photo Grid organized by location -->
@@ -144,17 +110,158 @@
     </div>
 </section>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+<style>
+.leaflet-map-wrapper {
+    height: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #f0f0f0;
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 8px;
+    border: 2px solid var(--primary-color);
+}
+
+.leaflet-popup-content {
+    font-family: var(--font-sans);
+    color: var(--text-dark);
+    margin: 8px 0;
+}
+
+.leaflet-popup-content h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.leaflet-popup-content p {
+    margin: 4px 0;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.popup-button {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 8px 16px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.popup-button:hover {
+    background-color: var(--secondary-color);
+}
+
+.leaflet-marker-icon {
+    filter: hue-rotate(200deg) saturate(1.2);
+}
+</style>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const mapPins = document.querySelectorAll('.map-pin');
-    mapPins.forEach(pin => {
-        pin.addEventListener('click', function() {
-            const location = this.getAttribute('data-location');
-            const element = document.getElementById(location);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
+    // Location data with coordinates and information
+    const travelLocations = [
+        {
+            id: 'paris',
+            name: 'Paris, France',
+            continent: 'europe',
+            lat: 48.8566,
+            lng: 2.3522,
+            description: 'The City of Light'
+        },
+        {
+            id: 'london',
+            name: 'London, England',
+            continent: 'europe',
+            lat: 51.5074,
+            lng: -0.1278,
+            description: 'Historic City'
+        },
+        {
+            id: 'tokyo',
+            name: 'Tokyo, Japan',
+            continent: 'asia',
+            lat: 35.6762,
+            lng: 139.6503,
+            description: 'Modern Metropolis'
+        },
+        {
+            id: 'bangkok',
+            name: 'Bangkok, Thailand',
+            continent: 'asia',
+            lat: 13.7563,
+            lng: 100.5018,
+            description: 'City of Angels'
+        },
+        {
+            id: 'cairo',
+            name: 'Cairo, Egypt',
+            continent: 'africa',
+            lat: 30.0444,
+            lng: 31.2357,
+            description: 'Ancient Wonders'
+        },
+        {
+            id: 'newyork',
+            name: 'New York, USA',
+            continent: 'americas',
+            lat: 40.7128,
+            lng: -74.0060,
+            description: 'The Big Apple'
+        },
+        {
+            id: 'mexico',
+            name: 'Mexico City, Mexico',
+            continent: 'americas',
+            lat: 19.4326,
+            lng: -99.1332,
+            description: 'City of Palaces'
+        }
+        // Add more locations easily by copying this format:
+        // { id: 'location-id', name: 'City, Country', continent: 'continent-id', lat: 0.0, lng: 0.0, description: 'Description' }
+    ];
+
+    // Initialize Leaflet map
+    const map = L.map('travels-map').setView([20, 0], 2);
+
+    // Add OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19,
+        tileSize: 256
+    }).addTo(map);
+
+    // Add markers for each location
+    travelLocations.forEach(location => {
+        const marker = L.marker([location.lat, location.lng], {
+            title: location.name
+        }).addTo(map);
+
+        // Create popup content with button
+        const popupContent = `
+            <div class="leaflet-popup-content">
+                <h3>${location.name}</h3>
+                <p>${location.description}</p>
+                <button class="popup-button" onclick="document.getElementById('${location.continent}').scrollIntoView({behavior: 'smooth', block: 'start'})">
+                    View Details
+                </button>
+            </div>
+        `;
+
+        marker.bindPopup(popupContent);
     });
 });
 </script>

@@ -12,6 +12,23 @@
     <meta property="og:type" content="website">
     
     <title>Kalie Jia - Personal Website</title>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DNZN618H1Y"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-DNZN618H1Y', {
+        'page_path': window.location.hash.slice(1) || '/'
+      });
+      
+      // Track hash changes for SPA navigation
+      window.addEventListener('hashchange', () => {
+        gtag('config', 'G-DNZN618H1Y', {
+          'page_path': window.location.hash.slice(1) || '/'
+        });
+      });
+    </script>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/lightbox.css">
     <link rel="canonical" href="https://yourdomain.com">

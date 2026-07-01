@@ -145,10 +145,13 @@ nav {
 
 .nav-links {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
   list-style: none;
   flex-wrap: nowrap;
   align-items: center;
+  flex: 1;
+  justify-content: space-around;
+  margin: 0 2rem;
 }
 
 .nav-links a {
@@ -179,7 +182,7 @@ nav {
 .theme-selector-wrapper {
   display: flex !important;
   align-items: center;
-  margin-left: auto;
+  gap: 1rem;
 }
 
 .theme-select {

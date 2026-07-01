@@ -150,6 +150,7 @@ nav {
   flex-wrap: nowrap;
   align-items: center;
   flex: 1;
+  justify-content: space-around;
 }
 
 .nav-links a {
@@ -181,7 +182,7 @@ nav {
 .theme-selector-wrapper {
   display: flex !important;
   align-items: center;
-  margin-left: auto;
+  gap: 1rem;
 }
 
 .theme-select {
