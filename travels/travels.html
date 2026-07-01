@@ -10,9 +10,8 @@
             <p>I love exploring new places and learning about cultures around the world!</p>
         </div>
 
-        <!-- World Map with Location Pins (Interactive Leaflet Map) -->
-        <div class="world-map" id="travels-map-container">
-            <div id="travels-map" class="leaflet-map-wrapper"></div>
+        <div class="world-map" id="travel-map-container">
+            <div id="map" class="leaflet-map-wrapper"></div>
         </div>
 
         <!-- Photo Grid organized by location -->
@@ -114,154 +113,134 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
 <style>
-.leaflet-map-wrapper {
+.travel-map-heading {
+    margin: 1.5rem 0 1rem;
+    font-size: 1.75rem;
+    color: var(--primary-color);
+}
+
+#map {
+    width: 100%;
     height: 500px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: #f0f0f0;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 12px 35px rgba(15, 23, 42, 0.15);
+    border: 1px solid rgba(37, 99, 235, 0.12);
+}
+
+.world-map {
+    margin-bottom: 2rem;
 }
 
 .leaflet-popup-content-wrapper {
-    border-radius: 8px;
-    border: 2px solid var(--primary-color);
+    border-radius: 12px;
 }
 
 .leaflet-popup-content {
-    font-family: var(--font-sans);
-    color: var(--text-dark);
-    margin: 8px 0;
+    margin: 10px 12px;
+    line-height: 1.5;
 }
 
-.leaflet-popup-content h3 {
-    margin-top: 0;
-    margin-bottom: 8px;
+.leaflet-popup-content strong {
+    display: block;
+    margin-bottom: 4px;
     color: var(--primary-color);
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-size: 1rem;
 }
 
-.leaflet-popup-content p {
-    margin: 4px 0;
-    font-size: 0.9rem;
+.leaflet-popup-content .popup-date {
+    display: block;
+    font-size: 0.8rem;
     color: var(--text-light);
+    margin-bottom: 6px;
 }
 
-.popup-button {
-    display: inline-block;
-    margin-top: 8px;
-    padding: 8px 16px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
-    text-decoration: none;
+.leaflet-popup-content .popup-description {
+    margin: 0;
+    color: var(--text-dark);
 }
 
-.popup-button:hover {
-    background-color: var(--secondary-color);
-}
-
-.leaflet-marker-icon {
-    filter: hue-rotate(200deg) saturate(1.2);
+@media (max-width: 768px) {
+    #map {
+        height: 380px;
+        border-radius: 14px;
+    }
 }
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Location data with coordinates and information
-    const travelLocations = [
-        {
-            id: 'paris',
-            name: 'Paris, France',
-            continent: 'europe',
-            lat: 48.8566,
-            lng: 2.3522,
-            description: 'The City of Light'
-        },
-        {
-            id: 'london',
-            name: 'London, England',
-            continent: 'europe',
-            lat: 51.5074,
-            lng: -0.1278,
-            description: 'Historic City'
-        },
-        {
-            id: 'tokyo',
-            name: 'Tokyo, Japan',
-            continent: 'asia',
-            lat: 35.6762,
-            lng: 139.6503,
-            description: 'Modern Metropolis'
-        },
-        {
-            id: 'bangkok',
-            name: 'Bangkok, Thailand',
-            continent: 'asia',
-            lat: 13.7563,
-            lng: 100.5018,
-            description: 'City of Angels'
-        },
-        {
-            id: 'cairo',
-            name: 'Cairo, Egypt',
-            continent: 'africa',
-            lat: 30.0444,
-            lng: 31.2357,
-            description: 'Ancient Wonders'
-        },
-        {
-            id: 'newyork',
-            name: 'New York, USA',
-            continent: 'americas',
-            lat: 40.7128,
-            lng: -74.0060,
-            description: 'The Big Apple'
-        },
-        {
-            id: 'mexico',
-            name: 'Mexico City, Mexico',
-            continent: 'americas',
-            lat: 19.4326,
-            lng: -99.1332,
-            description: 'City of Palaces'
+function initTravelMap() {
+    if (typeof window.L === 'undefined') {
+        const existingLeafletScript = document.querySelector('script[src*="leaflet.min.js"]');
+
+        if (existingLeafletScript) {
+            existingLeafletScript.addEventListener('load', () => initTravelMap(), { once: true });
+        } else {
+            const leafletScript = document.createElement('script');
+            leafletScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+            leafletScript.onload = () => initTravelMap();
+            leafletScript.onerror = () => console.error('Leaflet failed to load.');
+            document.head.appendChild(leafletScript);
         }
-        // Add more locations easily by copying this format:
-        // { id: 'location-id', name: 'City, Country', continent: 'continent-id', lat: 0.0, lng: 0.0, description: 'Description' }
+
+        return;
+    }
+
+    // Add new trips here later by copying this structure:
+    // { name: 'City, Country', coords: [lat, lng], date: 'Month Year', description: 'Short note' }
+    const myTravels = [
+        {
+            name: 'Tokyo, Japan',
+            coords: [35.6762, 139.6503],
+            date: 'Spring 2024',
+            description: 'Neon nights, sushi, and a city that never seems to sleep.'
+        },
+        {
+            name: 'Paris, France',
+            coords: [48.8566, 2.3522],
+            date: 'Summer 2023',
+            description: 'Art, cafés, and timeless architecture by the Seine.'
+        }
     ];
 
-    // Initialize Leaflet map
-    const map = L.map('travels-map').setView([20, 0], 2);
+    const map = window.L.map('map', {
+        zoomControl: true,
+        scrollWheelZoom: true
+    }).setView([20, 0], 2);
 
-    // Add OpenStreetMap tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 19,
-        tileSize: 256
+    window.L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 20
     }).addTo(map);
 
-    // Add markers for each location
-    travelLocations.forEach(location => {
-        const marker = L.marker([location.lat, location.lng], {
-            title: location.name
+    const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    myTravels.forEach(trip => {
+        const marker = window.L.marker(trip.coords, {
+            title: trip.name
         }).addTo(map);
 
-        // Create popup content with button
         const popupContent = `
             <div class="leaflet-popup-content">
-                <h3>${location.name}</h3>
-                <p>${location.description}</p>
-                <button class="popup-button" onclick="document.getElementById('${location.continent}').scrollIntoView({behavior: 'smooth', block: 'start'})">
-                    View Details
-                </button>
+                <strong>${trip.name}</strong>
+                <span class="popup-date">${trip.date}</span>
+                <p class="popup-description">${trip.description}</p>
             </div>
         `;
 
         marker.bindPopup(popupContent);
+
+        if (isDesktop) {
+            marker.on('mouseover', () => marker.openPopup());
+            marker.on('mouseout', () => marker.closePopup());
+        }
     });
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTravelMap);
+} else {
+    initTravelMap();
+}
 </script>

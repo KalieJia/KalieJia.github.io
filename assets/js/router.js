@@ -149,7 +149,12 @@ class Router {
         const viewport = document.getElementById('content-viewport');
         
         if (this.components.sections[section]) {
-            viewport.innerHTML = this.components.sections[section];
+            const fragment = document.createElement('div');
+            fragment.innerHTML = this.components.sections[section];
+
+            viewport.innerHTML = '';
+            viewport.appendChild(fragment);
+            this.executeSectionScripts(viewport);
             
             // Re-initialize features that depend on DOM
             this.initializeSectionFeatures(section);
@@ -157,6 +162,21 @@ class Router {
             // Scroll to top
             window.scrollTo(0, 0);
         }
+    }
+
+    executeSectionScripts(container) {
+        const scripts = Array.from(container.querySelectorAll('script'));
+
+        scripts.forEach((script) => {
+            const newScript = document.createElement('script');
+
+            Array.from(script.attributes).forEach((attribute) => {
+                newScript.setAttribute(attribute.name, attribute.value);
+            });
+
+            newScript.textContent = script.textContent;
+            script.replaceWith(newScript);
+        });
     }
 
     /**
