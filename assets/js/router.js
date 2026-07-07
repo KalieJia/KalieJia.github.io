@@ -189,7 +189,7 @@ class Router {
         
         if (section === 'community') {
             // Reinitialize community filter when community section is displayed
-            if (window.CommunityFilter) {
+            if (typeof window.CommunityFilter === 'function' || typeof CommunityFilter === 'function') {
                 window.communityFilter = new CommunityFilter();
             }
         }

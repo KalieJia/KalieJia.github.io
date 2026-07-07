@@ -192,51 +192,81 @@ class SlideShowVideoManager {
 class CommunityFilter {
   constructor() {
     this.filterSelect = document.getElementById('article-filter');
-    this.communityItems = document.querySelectorAll('.community-item');
-    
+    this.communityItems = Array.from(document.querySelectorAll('.community-item'));
+    this.communityList = document.querySelector('.community-items');
+
     if (!this.filterSelect || this.communityItems.length === 0) return;
-    
-    // Prevent duplicate initialization
-    if (this.filterSelect.hasAttribute('data-initialized')) return;
-    this.filterSelect.setAttribute('data-initialized', 'true');
-    
+
     this.init();
   }
 
   init() {
-    // Set up event listener for filter changes
+    if (this.filterSelect.hasAttribute('data-initialized')) {
+      this.refresh();
+      return;
+    }
+
+    this.filterSelect.setAttribute('data-initialized', 'true');
+
     this.filterSelect.addEventListener('change', (e) => {
       this.applyFilter(e.target.value);
     });
-    
-    // Apply initial filter (all)
-    this.applyFilter('all');
+
+    this.sortItemsByDate();
+    this.applyFilter(this.filterSelect.value || 'all');
   }
 
-  applyFilter(filterValue) {
-    const filterMonths = parseInt(filterValue);
+  sortItemsByDate() {
+    if (!this.communityList) return;
+
+    this.communityItems.sort((a, b) => {
+      const dateA = new Date(a.getAttribute('data-date') || 0);
+      const dateB = new Date(b.getAttribute('data-date') || 0);
+      return dateB - dateA;
+    });
+
+    this.communityList.innerHTML = '';
+    this.communityItems.forEach((item) => {
+      this.communityList.appendChild(item);
+    });
+  }
+
+  refresh() {
+    this.communityItems = Array.from(document.querySelectorAll('.community-item'));
+    this.communityList = document.querySelector('.community-items');
+
+    if (!this.filterSelect || this.communityItems.length === 0) return;
+
+    this.sortItemsByDate();
+    this.applyFilter(this.filterSelect.value || 'all');
+  }
+
+  applyFilter(filterValue = 'all') {
+    const normalizedValue = filterValue || 'all';
     const cutoffDate = new Date();
-    
-    if (!isNaN(filterMonths)) {
-      // Calculate cutoff date based on current date minus the specified months
-      cutoffDate.setMonth(cutoffDate.getMonth() - filterMonths);
+
+    if (normalizedValue !== 'all') {
+      const filterMonths = parseInt(normalizedValue, 10);
+      if (!isNaN(filterMonths)) {
+        cutoffDate.setMonth(cutoffDate.getMonth() - filterMonths);
+      }
     }
-    
+
     this.communityItems.forEach((item) => {
       const dateStr = item.getAttribute('data-date');
       if (!dateStr) {
         item.style.display = 'none';
         return;
       }
-      
+
       const itemDate = new Date(dateStr);
-      
-      // Show item if it's after the cutoff date or if filter is "all"
-      const shouldShow = filterValue === 'all' || itemDate >= cutoffDate;
+      const shouldShow = normalizedValue === 'all' || itemDate >= cutoffDate;
       item.style.display = shouldShow ? 'block' : 'none';
     });
   }
 }
+
+window.CommunityFilter = CommunityFilter;
 
 // ============================================
 // Footer Year Updater
