@@ -11,6 +11,55 @@
             font-size: 1.5rem;
             line-height: 1;
         }
+
+        .writing-language-section {
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .writing-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            background: rgba(8, 145, 178, 0.08);
+        }
+
+        .writing-section-header h3 {
+            margin: 0;
+        }
+
+        .writing-section-toggle {
+            border: none;
+            background: transparent;
+            color: var(--primary-color, #0f766e);
+            font-size: 1.2rem;
+            cursor: pointer;
+            font-weight: 600;
+            line-height: 1;
+            padding: 0.25rem 0.4rem;
+        }
+
+        .writing-section-content {
+            padding: 1rem 1.25rem 1.25rem;
+        }
+
+        .writing-language-section.is-collapsed .writing-section-content {
+            display: none;
+        }
+
+        .writing-language-section:not(.is-collapsed) .writing-section-toggle {
+            transform: rotate(90deg);
+            transition: transform 0.2s ease;
+        }
+
+        .writing-section-toggle {
+            transition: transform 0.2s ease;
+        }
     </style>
     <div class="container">
         <div class="section-header">
@@ -23,10 +72,14 @@
         </p>
 
         <!-- English Writing Section -->
-        <div class="writing-language-section">
-            <h3 class="language-title">🇺🇸 English</h3>
-            <div class="writing-table-container">
-                <table class="writing-table">
+        <div class="writing-language-section is-collapsed">
+            <div class="writing-section-header" data-toggle-target="english-content">
+                <h3 class="language-title">🇺🇸 English</h3>
+                <button class="writing-section-toggle" type="button" aria-expanded="false">▶</button>
+            </div>
+            <div id="english-content" class="writing-section-content">
+                <div class="writing-table-container">
+                    <table class="writing-table">
                     <thead>
                         <tr>
                             <th>Title</th>
@@ -67,15 +120,20 @@
                             <td><a href="../assets/essays/2025-2026 Stossel in the Classroom America at 250 Essay Contest.pdf" target="_blank" rel="noopener noreferrer" class="btn-small">📄</a></td>
                         </tr>
                     </tbody>
-                </table>
+                    </table>
+                </div>
             </div>
         </div>
 
         <!-- Chinese Writing Section -->
-        <div class="writing-language-section">
-            <h3 class="language-title">🇨🇳 Chinese</h3>
-            <div class="writing-table-container">
-                <table class="writing-table">
+        <div class="writing-language-section is-collapsed">
+            <div class="writing-section-header" data-toggle-target="chinese-content">
+                <h3 class="language-title">🇨🇳 Chinese</h3>
+                <button class="writing-section-toggle" type="button" aria-expanded="false">▶</button>
+            </div>
+            <div id="chinese-content" class="writing-section-content">
+                <div class="writing-table-container">
+                    <table class="writing-table">
                     <thead>
                         <tr>
                             <th>Title</th>
@@ -89,15 +147,20 @@
                             <td colspan="4" style="text-align: center; color: var(--text-light); padding: 2rem;">No writings yet. Add your first piece!</td>
                         </tr>
                     </tbody>
-                </table>
+                    </table>
+                </div>
             </div>
         </div>
 
         <!-- Japanese Writing Section -->
-        <div class="writing-language-section">
-            <h3 class="language-title">🇯🇵 Japanese</h3>
-            <div class="writing-table-container">
-                <table class="writing-table">
+        <div class="writing-language-section is-collapsed">
+            <div class="writing-section-header" data-toggle-target="japanese-content">
+                <h3 class="language-title">🇯🇵 Japanese</h3>
+                <button class="writing-section-toggle" type="button" aria-expanded="false">▶</button>
+            </div>
+            <div id="japanese-content" class="writing-section-content">
+                <div class="writing-table-container">
+                    <table class="writing-table">
                     <thead>
                         <tr>
                             <th>Title</th>
@@ -114,8 +177,34 @@
                             <td><a href="./assets/essays/郊外の子が市へ.pdf.pdf" target="_blank" rel="noopener noreferrer" class="btn-small">📄</a></td>
                         </tr>
                     </tbody>
-                </table>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+    function initWritingSectionToggles() {
+        document.querySelectorAll('.writing-section-header').forEach(function (header) {
+            header.addEventListener('click', function () {
+                const section = header.closest('.writing-language-section');
+                const targetId = header.getAttribute('data-toggle-target');
+                const content = document.getElementById(targetId);
+                const button = header.querySelector('.writing-section-toggle');
+
+                if (!section || !content || !button) return;
+
+                const isCollapsed = section.classList.toggle('is-collapsed');
+                const expanded = !isCollapsed;
+                button.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+            });
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initWritingSectionToggles);
+    } else {
+        initWritingSectionToggles();
+    }
+</script>
