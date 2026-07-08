@@ -477,6 +477,183 @@ main {
 }
 
 /* ============================================
+   Video Wall Component
+   ============================================ */
+
+.music-showcase {
+  margin: 2rem auto 2.5rem;
+}
+
+.music-showcase-scene {
+  position: relative;
+  width: min(100%, 1000px);
+  min-height: 620px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.music-description-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(320px, 85%);
+  z-index: 2;
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  text-align: center;
+}
+
+.music-description-card p {
+  margin-bottom: 0;
+  color: var(--text-dark);
+}
+
+.music-video-orbit {
+  position: absolute;
+  inset: 0;
+}
+
+.video-tile {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(220px, 28vw);
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  transition: var(--transition);
+  transform: translate(-50%, -50%) translate(var(--orbit-x), var(--orbit-y)) rotate(var(--orbit-rotation));
+  z-index: 1;
+}
+
+.video-tile:hover {
+  transform: translate(-50%, -50%) translate(var(--orbit-x), var(--orbit-y)) rotate(var(--orbit-rotation)) translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-color);
+}
+
+.video-tile iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  border: 0;
+  background: #000;
+  pointer-events: none;
+}
+
+.video-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 2000;
+}
+
+.video-modal.is-open {
+  display: flex;
+}
+
+.video-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+.video-modal-dialog {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 960px);
+  background: var(--bg-white);
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.video-modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--text-dark);
+  font-size: 1.4rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+.video-modal-header {
+  margin-bottom: 0.75rem;
+  padding-right: 2.5rem;
+}
+
+.video-modal-title {
+  font-size: 1.1rem;
+  margin: 0;
+  color: var(--text-dark);
+}
+
+.video-modal-frame {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #000;
+}
+
+.video-modal-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  .music-showcase-scene {
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0;
+  }
+
+  .music-description-card {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+  }
+
+  .music-video-orbit {
+    position: relative;
+    min-height: 320px;
+  }
+
+  .video-tile {
+    width: min(220px, 42vw);
+    position: absolute;
+  }
+}
+
+/* ============================================
    Grid Layouts
    ============================================ */
 
