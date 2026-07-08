@@ -9,7 +9,7 @@ class Router {
         this.sections = [
             'home', 'accomplishments', 'coursework',
             'videos', 'writing', 'music', 'resume',
-            'travels', 'community', 'contact'
+            'travels', 'community'
         ];
         this.components = {
             nav: null,

@@ -208,7 +208,6 @@ const CONFIG = {
     { id: 'activities', title: 'Activities', path: '/activities/', icon: '🎯' },
     { id: 'resume', title: 'Resume', path: '/resume/', icon: '📄' },
     { id: 'puzzles', title: 'Puzzles', path: '/puzzles/', icon: '🧩' },
-    { id: 'contact', title: 'Contact', path: '/contact/', icon: '✉️' },
   ],
 
   // Get current theme
