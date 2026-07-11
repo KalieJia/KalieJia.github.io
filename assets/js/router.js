@@ -6,11 +6,18 @@
 class Router {
     constructor() {
         this.currentSection = 'home';
-        this.sections = [
-            'home', 'accomplishments', 'coursework',
-            'videos', 'writing', 'music', 'resume',
-            'travels', 'community'
-        ];
+        this.sectionFiles = {
+            home: 'home.html',
+            accomplishments: 'accomplishments.html',
+            coursework: 'coursework.html',
+            videos: 'videos.html',
+            writing: 'writing.html',
+            music: 'music.html',
+            resume: 'resume.html',
+            travels: 'travels.html',
+            community: 'community.html'
+        };
+        this.sections = Object.keys(this.sectionFiles);
         this.components = {
             nav: null,
             footer: null,
@@ -95,19 +102,29 @@ class Router {
 
     /**
      * Load a section component
+     * Prefer the flat layout and fall back to the legacy folder structure.
      */
     async loadSection(section) {
-        try {
-            
-            let path;
-            path = `${section}/${section}.html`;
-            
-            const response = await fetch(path);
-            const html = await response.text();
-            this.components.sections[section] = html;
-        } catch (error) {
-            console.error(`Failed to load section ${section}:`, error);
+        const primaryPath = this.sectionFiles[section] || `${section}.html`;
+        const fallbackPath = `${section}/${section}.html`;
+        const candidatePaths = [primaryPath, fallbackPath];
+
+        for (const path of candidatePaths) {
+            try {
+                const response = await fetch(path);
+                if (!response.ok) {
+                    continue;
+                }
+
+                const html = await response.text();
+                this.components.sections[section] = html;
+                return;
+            } catch (error) {
+                // Try the next candidate path.
+            }
         }
+
+        console.error(`Failed to load section ${section} from any supported path.`);
     }
 
     /**
