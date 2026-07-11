@@ -2,266 +2,339 @@
 <section id="travels" class="section">
     <div class="container">
         <div class="section-header">
-            <p class="section-title">环游世界</p>
-            <h2>我的旅行</h2>
+            <p class="section-title">Around the World</p>
+            <h2>My Travels</h2>
         </div>
 
         <div class="travels-intro">
-            <p>跟随我跨越世界各地，深入各个国家的丰富文化！</p>
+            <p>I love exploring new places and learning about cultures around the world!</p>
         </div>
 
-        <!-- World Map with Location Pins (Interactive Leaflet Map) -->
-        <div class="world-map" id="travels-map-container">
-            <div id="travels-map" class="leaflet-map-wrapper"></div>
+        <div class="world-map" id="travel-map-container">
+            <div id="map" class="leaflet-map-wrapper"></div>
         </div>
-
-        <!-- Photo Grid organized by location -->
-        <div class="travels-grid">
-            <!-- Europe -->
-            <div class="location-section" id="europe">
-                <h3 class="location-title">Europe</h3>
-                <div class="css-gallery">
-                    <div class="gallery-row">
-                        <div class="gallery-item">
-                            <img src="assets/images/photo1.jpg" alt="European City">
-                            <div class="gallery-overlay">
-                                <p class="gallery-caption">Historic Streets</p>
-                            </div>
-                        </div>
-                        <div class="gallery-item">
-                            <img src="assets/images/photo2.jpg" alt="European Coast">
-                            <div class="gallery-overlay">
-                                <p class="gallery-caption">Coastal Views</p>
-                            </div>
-                        </div>
-                        <div class="gallery-item">
-                            <img src="assets/images/photo3.jpg" alt="European Architecture">
-                            <div class="gallery-overlay">
-                                <p class="gallery-caption">Architecture</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Asia -->
-            <div class="location-section" id="asia">
-                <h3 class="location-title">Asia</h3>
-                <div class="css-gallery">
-                    <div class="gallery-row">
-                        <div class="gallery-item">
-                            <img src="assets/images/photo4.jpg" alt="Asian Temple">
-                            <div class="gallery-overlay">
-                                <p class="gallery-caption">Ancient Temples</p>
-                            </div>
-                        </div>
-                        <div class="gallery-item">
-                            <img src="assets/images/photo5.jpg" alt="Asian Landscape">
-                            <div class="gallery-overlay">
-                                <p class="gallery-caption">Landscape</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Africa -->
-            <div class="location-section" id="africa">
-                <h3 class="location-title">Africa</h3>
-                <div class="css-gallery">
-                    <div class="gallery-row">
-                        <div class="gallery-item">
-                            <img src="assets/images/photo2.jpg" alt="African Safari">
-                            <div class="gallery-overlay">
-                                <p class="gallery-caption">Wildlife</p>
-                            </div>
-                        </div>
-                        <div class="gallery-item">
-                            <img src="assets/images/photo3.jpg" alt="African Culture">
-                            <div class="gallery-overlay">
-                                <p class="gallery-caption">Cultural Experience</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Americas -->
-            <div class="location-section" id="americas">
-                <h3 class="location-title">Americas</h3>
-                <div class="css-gallery">
-                    <div class="gallery-row">
-                        <div class="gallery-item">
-                            <img src="assets/images/photo6.jpg" alt="North American Landscape">
-                            <div class="gallery-overlay">
-                                <p class="gallery-caption">Mountain Views</p>
-                            </div>
-                        </div>
-                        <div class="gallery-item">
-                            <img src="assets/images/photo1.jpg" alt="South American Culture">
-                            <div class="gallery-overlay">
-                                <p class="gallery-caption">Local Culture</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </section>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link rel="stylesheet" href="../assets/vendor/leaflet/leaflet.css" />
+<script src="../assets/vendor/leaflet/leaflet.js"></script>
 
 <style>
-.leaflet-map-wrapper {
-    height: 500px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: #f0f0f0;
+.travel-map-heading {
+    margin: 1.5rem 0 1rem;
+    font-size: 1.75rem;
+    color: var(--primary-color);
+}
+
+#map {
+    width: 100%;
+    height: 650px;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 12px 35px rgba(15, 23, 42, 0.15);
+    border: 1px solid rgba(37, 99, 235, 0.12);
+}
+
+.world-map {
+    margin-bottom: 2rem;
+}
+
+.travel-marker-wrapper {
+    background: transparent !important;
+    border: none !important;
+}
+
+.travel-marker {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--primary-color, #2563eb);
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
 }
 
 .leaflet-popup-content-wrapper {
-    border-radius: 8px;
-    border: 2px solid var(--primary-color);
+    border-radius: 12px;
 }
 
 .leaflet-popup-content {
-    font-family: var(--font-sans);
-    color: var(--text-dark);
-    margin: 8px 0;
+    margin: 10px 12px;
+    line-height: 1.5;
 }
 
-.leaflet-popup-content h3 {
-    margin-top: 0;
-    margin-bottom: 8px;
+.leaflet-popup-content strong {
+    display: block;
+    margin-bottom: 4px;
     color: var(--primary-color);
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-size: 1rem;
 }
 
-.leaflet-popup-content p {
-    margin: 4px 0;
-    font-size: 0.9rem;
+.leaflet-popup-content .popup-date {
+    display: block;
+    font-size: 0.8rem;
     color: var(--text-light);
+    margin-bottom: 6px;
 }
 
-.popup-button {
-    display: inline-block;
-    margin-top: 8px;
-    padding: 8px 16px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
-    text-decoration: none;
+.leaflet-popup-content .popup-description {
+    margin: 0;
+    color: var(--text-dark);
 }
 
-.popup-button:hover {
-    background-color: var(--secondary-color);
-}
-
-.leaflet-marker-icon {
-    filter: hue-rotate(200deg) saturate(1.2);
+@media (max-width: 768px) {
+    #map {
+        height: 480px;
+        border-radius: 14px;
+    }
 }
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Location data with coordinates and information
-    const travelLocations = [
-        {
-            id: 'paris',
-            name: 'Paris, France',
-            continent: 'europe',
-            lat: 48.8566,
-            lng: 2.3522,
-            description: 'The City of Light'
-        },
-        {
-            id: 'london',
-            name: 'London, England',
-            continent: 'europe',
-            lat: 51.5074,
-            lng: -0.1278,
-            description: 'Historic City'
-        },
-        {
-            id: 'tokyo',
-            name: 'Tokyo, Japan',
-            continent: 'asia',
-            lat: 35.6762,
-            lng: 139.6503,
-            description: 'Modern Metropolis'
-        },
-        {
-            id: 'bangkok',
-            name: 'Bangkok, Thailand',
-            continent: 'asia',
-            lat: 13.7563,
-            lng: 100.5018,
-            description: 'City of Angels'
-        },
-        {
-            id: 'cairo',
-            name: 'Cairo, Egypt',
-            continent: 'africa',
-            lat: 30.0444,
-            lng: 31.2357,
-            description: 'Ancient Wonders'
-        },
-        {
-            id: 'newyork',
-            name: 'New York, USA',
-            continent: 'americas',
-            lat: 40.7128,
-            lng: -74.0060,
-            description: 'The Big Apple'
-        },
-        {
-            id: 'mexico',
-            name: 'Mexico City, Mexico',
-            continent: 'americas',
-            lat: 19.4326,
-            lng: -99.1332,
-            description: 'City of Palaces'
+function initTravelMap() {
+    if (typeof window.L === 'undefined') {
+        const existingLeafletScript = document.querySelector('script[src*="leaflet.min.js"]');
+
+        if (existingLeafletScript) {
+            existingLeafletScript.addEventListener('load', () => initTravelMap(), { once: true });
+        } else {
+            const leafletScript = document.createElement('script');
+            leafletScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+            leafletScript.onload = () => initTravelMap();
+            leafletScript.onerror = () => console.error('Leaflet failed to load.');
+            document.head.appendChild(leafletScript);
         }
-        // Add more locations easily by copying this format:
-        // { id: 'location-id', name: 'City, Country', continent: 'continent-id', lat: 0.0, lng: 0.0, description: 'Description' }
+
+        return;
+    }
+
+    // Add new trips here later by copying this structure:
+    // { name: 'City, Country', coords: [lat, lng], date: 'Month Year', description: 'Short note' }
+    const myTravels = [
+        {
+            name: 'Luhuo, China',
+            coords: [31.4500, 100.7000],
+            date: 'Summer 2023',
+            description: '________'
+        },
+        {
+            name: 'Chengdu, China',
+            coords: [30.5728, 104.0668],
+            date: 'Summer 2023',
+            description: 'Sichuan cuisine, pandas, and a city with a laid-back vibe.'
+        },
+        {
+            name: 'Tokyo, Japan',
+            coords: [35.6762, 139.6503],
+            date: 'Summer 2023',
+            description: 'Neon nights, sushi, and a city that never seems to sleep.'
+        },
+        {
+            name: 'Chongqing, China',
+            coords: [29.5630, 106.5508],
+            date: 'Summer 2023',
+            description: 'Mountainous landscapes, spicy cuisine, and a vibrant metropolis.'
+        },
+        {
+            name: 'Suzhou, China',
+            coords: [31.8206, 120.5843],
+            date: 'Summer 2023',
+            description: 'Classical gardens, silk, and a city with a rich cultural heritage.'
+        },
+        {
+            name: 'Shanghai, China',
+            coords: [31.2304, 121.4737],
+            date: 'Summer 2023',
+            description: 'A bustling metropolis with a rich history and modern skyline.'
+        },
+        {
+            name: 'Xi\'an, China',
+            coords: [34.2583, 108.9480],
+            date: 'Summer 2025',
+            description: 'Home to the Terracotta Army and ancient city walls, Xi\'an is a city steeped in history.'
+        },
+        {
+            name: 'Kangding, China',
+            coords: [30.0500, 101.9670],
+            date: 'Summer 2023',
+            description: 'A gateway to the Tibetan Plateau, known for its stunning landscapes and Tibetan culture. Dancing with locals in the square and eating fungal hot pot.'
+        },
+        {
+            name: 'Dujaingyan, China',
+            coords: [30.9880, 103.6020],
+            date: 'Summer 2023',
+            description: 'An ancient irrigation system and UNESCO World Heritage site, showcasing the ingenuity of ancient Chinese engineering.'
+        },
+        {
+            name: 'Leshan, China',
+            coords: [29.5583, 103.7650],
+            date: 'Summer 2023',
+            description: 'Home to the famous Leshan Giant Buddha, a UNESCO World Heritage site.'
+        },
+        {
+            name: 'Vienna, Austria',
+            coords: [48.2082, 16.3738],
+            date: 'Summer 2025',
+            description: '____'
+        },
+        {
+            name: 'London, UK',
+            coords: [51.5074, -0.1278],
+            date: 'Summer 2025',
+            description: '____'
+        },
+        {
+            name: 'Oxford, UK',
+            coords: [51.7520, -1.2577],
+            date: 'Summer 2025',
+            description: '____'
+        },
+        {
+            name: 'San Juan, Puerto Rico',
+            coords: [18.4663, -66.1057],
+            date: 'Winter 2023',
+            description: '____'
+        },
+        {
+            name: 'Hawaii, USA',
+            coords: [20.7967, -156.3319],
+            date: 'Fall 2017',
+            description: '____'
+        },
+        {
+            name: 'St. Petersburg, USA',
+            coords: [27.7676, -82.6403],
+            date: 'Spring 2023',
+            description: '____'
+        },
+        {
+            name: 'Miami, USA',
+            coords: [25.7617, -80.1918],
+            date: 'Winter 2022',
+            description: '____'
+        },
+          {
+            name: 'Orlando, USA',
+            coords: [28.5383, -81.3792],
+            date: 'Winter 2022',
+            description: '____'
+        },
+        {
+            name: 'Washington D.C., USA',
+            coords: [38.9072, -77.0369],
+            date: 'Spring 2022',
+            description: '____'
+        },
+        {
+            name: 'Baltimore, USA',
+            coords: [39.2904, -76.6122],
+            date: 'Spring 2024',
+            description: '____'
+        },
+        {
+            name: 'Seattle, USA',
+            coords: [47.6062, -122.3320],
+            date: '___',
+            description: '____'
+        },
+        {
+            name: 'New Haven, USA',
+            coords: [41.6032, -73.0877],
+            date: 'Summer 2024',
+            description: 'We saw Yale!'
+        },
+        {
+            name: 'NYC, USA',
+            coords: [40.7128, -74.0060],
+            date: 'Summer 2024',
+            description: '____'
+        },
+        {
+            name: 'Princeton, New Jersey, USA',
+            coords: [40.3571, -74.6702],
+            date: 'Summer 2024',
+            description: '____'
+        },
+        {
+            name: 'Barcelona, Spain',
+            coords: [41.3851, 2.1734],
+            date: 'Summer 2025',
+            description: 'Paella, walking around the city, and enjoying the Mediterranean vibes.'
+        },
+        {
+            name: 'Montreal, Canada',
+            coords: [45.5017, -73.5673],
+            date: 'Winter 2023',
+            description: '___'
+        },
+        {
+            name: 'Ottawa, Canada',
+            coords: [45.4215, -75.6928],
+            date: 'Winter 2023',
+            description: '___'
+        },
+        {
+            name: 'Toronto, Canada',
+            coords: [43.6532, -79.3832],
+            date: 'Winter 2023',
+            description: '___'
+        },
+        {
+            name: 'Quebec City, Canada',
+            coords: [46.8182, -71.2129],
+            date: 'Winter 2023',
+            description: '___'
+        },
+        {
+            name: 'Mystic, USA',
+            coords: [41.4905, -71.9912],
+            date: 'Spring 2026',
+            description: 'Learned about shipbuilding and the whaling industry of New England.'
+        }
     ];
 
-    // Initialize Leaflet map
-    const map = L.map('travels-map').setView([20, 0], 2);
+    const map = window.L.map('map', {
+        zoomControl: true,
+        scrollWheelZoom: true
+    }).setView([20, 0], 2);
 
-    // Add OpenStreetMap tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 19,
-        tileSize: 256
+        maxZoom: 19
     }).addTo(map);
 
-    // Add markers for each location
-    travelLocations.forEach(location => {
-        const marker = L.marker([location.lat, location.lng], {
-            title: location.name
+    const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const markerIcon = window.L.divIcon({
+        html: '<div class="travel-marker"></div>',
+        className: 'travel-marker-wrapper',
+        iconSize: [14, 14],
+        iconAnchor: [7, 7]
+    });
+
+    myTravels.forEach(trip => {
+        const marker = window.L.marker(trip.coords, {
+            title: trip.name,
+            icon: markerIcon
         }).addTo(map);
 
-        // Create popup content with button
         const popupContent = `
             <div class="leaflet-popup-content">
-                <h3>${location.name}</h3>
-                <p>${location.description}</p>
-                <button class="popup-button" onclick="document.getElementById('${location.continent}').scrollIntoView({behavior: 'smooth', block: 'start'})">
-                    View Details
-                </button>
+                <strong>${trip.name}</strong>
+                <span class="popup-date">${trip.date}</span>
+                <p class="popup-description">${trip.description}</p>
             </div>
         `;
 
         marker.bindPopup(popupContent);
+
+        if (isDesktop) {
+            marker.on('mouseover', () => marker.openPopup());
+            marker.on('mouseout', () => marker.closePopup());
+        }
     });
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTravelMap);
+} else {
+    initTravelMap();
+}
 </script>
